@@ -1,0 +1,81 @@
+/* Design tokens — DESIGN.md §3. Components use these, never raw hex values. */
+:root {
+  /* Brand and neutrals */
+  --color-primary: #1d4ed8;
+  --color-primary-hover: #1e40af;
+  --color-primary-subtle: #eff6ff;
+  --color-nav-bg: #0f172a;
+  --color-nav-text: #cbd5e1;
+  --color-nav-text-active: #ffffff;
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f1f5f9;
+  --color-border: #e2e8f0;
+  --color-border-strong: #94a3b8;
+  --color-text: #0f172a;
+  --color-text-muted: #475569;
+  --color-focus: #2563eb;
+  --color-backdrop: rgba(15, 23, 42, 0.55);
+
+  /* Feedback */
+  --color-danger: #dc2626;
+  --color-danger-hover: #b91c1c;
+  --color-danger-subtle: #fee2e2;
+  --color-success: #15803d;
+  --color-success-subtle: #f0fdf4;
+  --color-warning-text: #92400e;
+  --color-warning-subtle: #fef3c7;
+
+  /* Status badges: background / text / accent */
+  --status-available-bg: #dcfce7;
+  --status-available-text: #166534;
+  --status-available-accent: #16a34a;
+  --status-in-use-bg: #dbeafe;
+  --status-in-use-text: #1e40af;
+  --status-in-use-accent: #2563eb;
+  --status-maintenance-bg: #fef3c7;
+  --status-maintenance-text: #92400e;
+  --status-maintenance-accent: #d97706;
+  --status-retired-bg: #e2e8f0;
+  --status-retired-text: #334155;
+  --status-retired-accent: #64748b;
+
+  /* Typography */
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans Arabic',
+    sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  --text-display: 48px;
+  --text-h1: 28px;
+  --text-h2: 20px;
+  --text-stat: 36px;
+  --text-body: 16px;
+  --text-small: 14px;
+  --text-xs: 12px;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+
+  /* Shape */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-full: 9999px;
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-dialog: 0 20px 40px rgba(15, 23, 42, 0.25);
+
+  /* Layout */
+  --container-max: 1200px;
+  --control-height: 40px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --control-height: 44px;
+  }
+}
