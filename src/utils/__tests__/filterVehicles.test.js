@@ -65,6 +65,14 @@ describe('sortVehicles', () => {
     expect(desc.at(-1)).toBe('NAJ 1198');
   });
 
+  it('treats two empty values as equal (consistent comparator)', () => {
+    const a = { plateNumber: 'AAA 0001', nextServiceDate: null };
+    const b = { plateNumber: 'BBB 0002', nextServiceDate: null };
+    const c = { plateNumber: 'DDD 0003', nextServiceDate: '2027-01-01' };
+    expect(plates(sortVehicles([a, b, c], 'nextServiceDate', 'asc'))).toEqual(['DDD 0003', 'AAA 0001', 'BBB 0002']);
+    expect(plates(sortVehicles([b, a, c], 'nextServiceDate', 'desc'))).toEqual(['DDD 0003', 'BBB 0002', 'AAA 0001']);
+  });
+
   it('does not change the input array', () => {
     const before = plates(seedVehicles);
     sortVehicles(seedVehicles, 'mileage', 'desc');

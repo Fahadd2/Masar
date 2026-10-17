@@ -21,14 +21,15 @@ export const SORTABLE_COLUMNS = {
   nextServiceDate: 'Next service',
 };
 
-// FR-10. Empty next service dates always go last.
+const isEmpty = (value) => value === null || value === undefined || value === '';
+
+// FR-10. Empty values (e.g. no next service date) always go last, in either direction.
 export function sortVehicles(vehicles, sortBy = 'plateNumber', direction = 'asc') {
   const sign = direction === 'desc' ? -1 : 1;
   return [...vehicles].sort((a, b) => {
     const x = a[sortBy];
     const y = b[sortBy];
-    if (!x && x !== 0) return 1;
-    if (!y && y !== 0) return -1;
+    if (isEmpty(x) || isEmpty(y)) return Number(isEmpty(x)) - Number(isEmpty(y));
     const result = typeof x === 'number' ? x - y : String(x).localeCompare(String(y));
     return result * sign;
   });

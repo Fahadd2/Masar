@@ -33,7 +33,7 @@ export default function DashboardPage() {
       <>
         <div className={styles.stats}>
           <div className={styles.total}>
-            <StatCard label="Total vehicles" value={vehicles.length} to="/vehicles" caption="View all →" />
+            <StatCard label="Total vehicles" value={vehicles.length} to="/vehicles" caption="View all" />
           </div>
           {STATUS_CARDS.map(({ status, tone }) => (
             <StatCard
@@ -42,7 +42,7 @@ export default function DashboardPage() {
               value={counts[status]}
               tone={tone}
               to={`/vehicles?status=${encodeURIComponent(status)}`}
-              caption="View →"
+              caption="View"
             />
           ))}
         </div>

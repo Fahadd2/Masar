@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useId, useRef } from 'react';
 import Button from './Button.jsx';
 import styles from './ConfirmDialog.module.css';
 
@@ -19,6 +19,9 @@ export default function ConfirmDialog({
   onCancel,
 }) {
   const dialogRef = useRef(null);
+  // Unique ids, so two dialogs on one page never share them.
+  const titleId = useId();
+  const messageId = useId();
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -38,8 +41,8 @@ export default function ConfirmDialog({
     <dialog
       ref={dialogRef}
       className={styles.dialog}
-      aria-labelledby="confirm-dialog-title"
-      aria-describedby="confirm-dialog-message"
+      aria-labelledby={titleId}
+      aria-describedby={messageId}
       onCancel={(event) => {
         event.preventDefault(); // Escape: let React state close the dialog
         cancel();
@@ -50,12 +53,12 @@ export default function ConfirmDialog({
     >
       <div className={styles.content}>
         <div className={styles.header}>
-          <h2 id="confirm-dialog-title">{title}</h2>
+          <h2 id={titleId}>{title}</h2>
           <button type="button" className={styles.close} aria-label="Close" onClick={cancel} disabled={busy}>
             ✕
           </button>
         </div>
-        <p id="confirm-dialog-message" className={styles.message}>
+        <p id={messageId} className={styles.message}>
           {message}
         </p>
         <div className={styles.actions}>

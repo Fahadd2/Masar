@@ -80,6 +80,15 @@ describe('Add vehicle (US-4)', () => {
     expect(screen.getAllByText('A vehicle that is In Use must have an assigned driver.')).toHaveLength(2);
   });
 
+  it('exposes required fields to assistive technology (NFR-2)', async () => {
+    const { user } = renderApp('/vehicles/new');
+    expect(screen.getByLabelText(/plate number/i)).toHaveAttribute('aria-required', 'true');
+    const driver = screen.getByLabelText(/assigned driver/i);
+    expect(driver).not.toHaveAttribute('aria-required');
+    await user.selectOptions(screen.getByLabelText(/^status/i), 'In Use');
+    expect(driver).toHaveAttribute('aria-required', 'true');
+  });
+
   it('Cancel returns to the list without adding (AC-4.6)', async () => {
     const { user } = renderApp('/vehicles/new');
     await user.type(screen.getByLabelText(/plate number/i), 'ABD 1234');

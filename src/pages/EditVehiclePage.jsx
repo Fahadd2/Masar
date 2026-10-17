@@ -5,10 +5,9 @@ import { useVehicle } from '../hooks/useVehicle.js';
 import { useVehicles } from '../hooks/useVehicles.js';
 import * as vehicleService from '../services/vehicleService.js';
 import { toFormValues, validateVehicle } from '../utils/validateVehicle.js';
-import Button from '../components/common/Button.jsx';
-import EmptyState from '../components/common/EmptyState.jsx';
 import PageHeader from '../components/common/PageHeader.jsx';
 import VehicleForm from '../components/vehicles/VehicleForm.jsx';
+import VehicleNotFound from '../components/vehicles/VehicleNotFound.jsx';
 
 export default function EditVehiclePage() {
   const { id } = useParams();
@@ -23,17 +22,7 @@ export default function EditVehiclePage() {
   useDocumentTitle(title);
 
   if (loading) return <p className="muted" role="status">Loading vehicle…</p>;
-  if (error || notFound) {
-    return (
-      <EmptyState
-        icon="alert"
-        headingLevel={1}
-        title={notFound ? 'Vehicle not found' : "Couldn't load this vehicle."}
-        message={notFound ? `There is no vehicle with ID "${id}".` : null}
-        action={<Button to="/vehicles">Back to vehicles</Button>}
-      />
-    );
-  }
+  if (error || notFound) return <VehicleNotFound id={id} error={error} />;
 
   async function handleSubmit(values) {
     const saved = await vehicleService.update(vehicle.id, values);

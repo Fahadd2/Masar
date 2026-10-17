@@ -7,7 +7,12 @@ export default function StatCard({ label, value, tone = 'neutral', to, caption }
     <>
       <span className={styles.label}>{label}</span>
       <span className={`${styles.value} numeric`}>{value}</span>
-      {caption && <span className={styles.caption}>{caption}</span>}
+      {caption && (
+        <span className={styles.caption}>
+          {caption}
+          {to && <span aria-hidden="true"> →</span>}
+        </span>
+      )}
     </>
   );
   const className = `card ${styles.card} ${styles[tone]}`;

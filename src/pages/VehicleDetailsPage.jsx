@@ -1,18 +1,15 @@
 import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 import { useRole } from '../context/RoleContext.jsx';
-import { useToast } from '../context/ToastContext.jsx';
 import { useDocumentTitle } from '../hooks/useDocumentTitle.js';
 import { useVehicle } from '../hooks/useVehicle.js';
-import * as vehicleService from '../services/vehicleService.js';
 import { getToday } from '../utils/dates.js';
 import { formatDate, formatKm, formatSAR, plural } from '../utils/format.js';
 import Button from '../components/common/Button.jsx';
-import ConfirmDialog from '../components/common/ConfirmDialog.jsx';
-import EmptyState from '../components/common/EmptyState.jsx';
-import DeleteMessage from '../components/vehicles/DeleteMessage.jsx';
+import DeleteVehicleDialog from '../components/vehicles/DeleteVehicleDialog.jsx';
 import StatusBadge from '../components/vehicles/StatusBadge.jsx';
 import ServiceTag from '../components/vehicles/ServiceTag.jsx';
+import VehicleNotFound from '../components/vehicles/VehicleNotFound.jsx';
 import styles from './VehicleDetailsPage.module.css';
 
 function Section({ title, children }) {
@@ -38,55 +35,23 @@ export default function VehicleDetailsPage() {
   const { isAdmin } = useRole();
   const { vehicle, loading, error, notFound } = useVehicle(id);
   const navigate = useNavigate();
-  const { notify } = useToast();
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const [deleting, setDeleting] = useState(false);
-
-  // Close the dialog if the role switches to Viewer while it is open (DESIGN §7.3).
-  if (!isAdmin && confirmOpen) setConfirmOpen(false);
-
-  async function confirmDelete() {
-    setDeleting(true);
-    try {
-      await vehicleService.remove(vehicle.id);
-      notify({ message: `Vehicle ${vehicle.plateNumber} deleted.` });
-    } catch {
-      notify({ type: 'error', message: `Vehicle ${vehicle.plateNumber} no longer exists.` });
-    }
-    setDeleting(false);
-    setConfirmOpen(false);
-    navigate('/vehicles');
-  }
 
   let title = 'Vehicle';
   if (vehicle) title = vehicle.plateNumber;
   else if (notFound) title = 'Vehicle not found';
   useDocumentTitle(title);
 
-  const backLink = (
-    <Link to="/vehicles" className={styles.back}>
-      ← Back to vehicles
-    </Link>
-  );
-
   if (loading) return <p className="muted" role="status">Loading vehicle…</p>;
-  if (error || notFound) {
-    return (
-      <EmptyState
-        icon="alert"
-        headingLevel={1}
-        title={notFound ? 'Vehicle not found' : "Couldn't load this vehicle."}
-        message={notFound ? `There is no vehicle with ID "${id}".` : null}
-        action={<Button to="/vehicles">Back to vehicles</Button>}
-      />
-    );
-  }
+  if (error || notFound) return <VehicleNotFound id={id} error={error} />;
 
   const age = getToday().getFullYear() - vehicle.year;
 
   return (
     <>
-      {backLink}
+      <Link to="/vehicles" className={styles.back}>
+        <span aria-hidden="true">← </span>Back to vehicles
+      </Link>
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>
@@ -150,15 +115,10 @@ export default function VehicleDetailsPage() {
 
       <p className={`muted ${styles.id}`}>Vehicle ID: {vehicle.id}</p>
 
-      <ConfirmDialog
-        open={confirmOpen}
-        title="Delete vehicle?"
-        message={<DeleteMessage vehicle={vehicle} />}
-        confirmLabel="Delete vehicle"
-        tone="danger"
-        busy={deleting}
-        onConfirm={confirmDelete}
+      <DeleteVehicleDialog
+        vehicle={confirmOpen ? vehicle : null}
         onCancel={() => setConfirmOpen(false)}
+        onDone={() => navigate('/vehicles')}
       />
     </>
   );

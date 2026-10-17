@@ -135,7 +135,7 @@ Masar/
     ├── components/
     │   ├── layout/               # Layout, Navbar, RoleSwitcher, RequireAdmin
     │   ├── vehicles/             # VehicleTable, VehicleForm, SearchBar, FilterBar, StatusBadge,
-    │   │                         #   ServiceTag, DeleteMessage
+    │   │                         #   ServiceTag, DeleteVehicleDialog, VehicleNotFound
     │   ├── dashboard/            # StatCard, ServiceDueList
     │   └── common/               # Button, FormField, ConfirmDialog, EmptyState, PageHeader,
     │                             #   Toast, ToastRegion
@@ -255,7 +255,7 @@ the top.
 | Vehicle details, formatted values, not found, Admin actions | FR-13 – FR-16 | `VehicleDetailsPage` | `browse.test.jsx`, `deleteVehicle.test.jsx` |
 | Add vehicle with validation, success toast, cancel | FR-17 – FR-20 | `AddVehiclePage`, `VehicleForm`, `validateVehicle` | `addVehicle.test.jsx`, `validateVehicle.test.js` |
 | Edit vehicle, pre-fill, cancel, not found | FR-21 – FR-24 | `EditVehiclePage`, `VehicleForm` | `editVehicle.test.jsx` |
-| Delete with confirmation, cancel | FR-25 – FR-28 | `VehicleListPage`, `VehicleDetailsPage`, `ConfirmDialog`, `DeleteMessage` | `deleteVehicle.test.jsx` |
+| Delete with confirmation, cancel | FR-25 – FR-28 | `DeleteVehicleDialog`, `ConfirmDialog` | `deleteVehicle.test.jsx` |
 | Search, status/type filters, AND logic, clear | FR-29 – FR-32 | `SearchBar`, `FilterBar`, `filterVehicles` | `filterVehicles.test.js`, `browse.test.jsx` |
 | Dashboard totals, per-status counts, service-due list, links | FR-33 – FR-38 | `DashboardPage`, `StatCard`, `ServiceDueList`, `fleetStats` | `fleetStats.test.js`, `browse.test.jsx` |
 | About page with team and course | FR-39 – FR-41 | `AboutPage`, `data/teamMembers.js` | `browse.test.jsx` |

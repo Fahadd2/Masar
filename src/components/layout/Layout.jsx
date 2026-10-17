@@ -7,15 +7,14 @@ import styles from './Layout.module.css';
 export default function Layout() {
   const { pathname } = useLocation();
   const mainRef = useRef(null);
-  const firstRender = useRef(true);
+  const previousPathname = useRef(pathname);
 
   // After client-side navigation, move focus to the new page so keyboard and
-  // screen-reader users start at its content (not on the first page load).
+  // screen-reader users start at its content. Comparing with the previous path (instead of
+  // skipping the first run) also stays correct when StrictMode runs effects twice.
   useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
+    if (previousPathname.current === pathname) return;
+    previousPathname.current = pathname;
     mainRef.current?.focus({ preventScroll: true });
     window.scrollTo(0, 0);
   }, [pathname]);

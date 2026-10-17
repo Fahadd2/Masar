@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { DEPARTMENTS, STATUSES, VEHICLE_TYPES } from '../../constants/vehicle.js';
 import { useToast } from '../../context/ToastContext.jsx';
-import { ValidationError } from '../../services/vehicleService.js';
+import { NotFoundError, ValidationError } from '../../services/vehicleService.js';
 import { MAX_LENGTHS } from '../../utils/validateVehicle.js';
 import Button from '../common/Button.jsx';
 import FormField from '../common/FormField.jsx';
@@ -87,7 +87,12 @@ export default function VehicleForm({ mode, initialValues, validate, onSubmit, o
         setServiceErrors(error.fieldErrors);
         setFailedSubmits((count) => count + 1);
       } else {
-        notify({ type: 'error', message: error.message || 'Something went wrong. Your changes were not saved.' });
+        // Fixed messages only: raw error text (e.g. from a server in Part 2) is never shown to users.
+        const message =
+          error instanceof NotFoundError
+            ? 'This vehicle no longer exists, so your changes were not saved.'
+            : 'Something went wrong. Your changes were not saved.';
+        notify({ type: 'error', message });
       }
     } finally {
       setSaving(false);
@@ -104,16 +109,17 @@ export default function VehicleForm({ mode, initialValues, validate, onSubmit, o
       onChange: handleChange,
       onBlur: handleBlur,
       className: 'input',
+      // The visual asterisk is hidden from screen readers, so required-ness is announced here.
+      'aria-required': extra.required ? true : undefined,
       'aria-invalid': error ? true : undefined,
       'aria-describedby': describedBy(name, extra.hint, error),
-      ...extra.props,
     };
   }
 
   function field(name, { required = true, hint, render }) {
     return (
       <FormField id={name} label={LABELS[name]} required={required} hint={hint} error={visibleError(name)}>
-        {render(control(name, { hint }))}
+        {render(control(name, { hint, required }))}
       </FormField>
     );
   }

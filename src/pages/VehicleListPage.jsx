@@ -2,16 +2,13 @@ import { useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { STATUSES, VEHICLE_TYPES } from '../constants/vehicle.js';
 import { useRole } from '../context/RoleContext.jsx';
-import { useToast } from '../context/ToastContext.jsx';
 import { useDocumentTitle } from '../hooks/useDocumentTitle.js';
 import { useVehicles } from '../hooks/useVehicles.js';
-import * as vehicleService from '../services/vehicleService.js';
 import { filterVehicles, sortVehicles } from '../utils/filterVehicles.js';
 import Button from '../components/common/Button.jsx';
-import ConfirmDialog from '../components/common/ConfirmDialog.jsx';
 import EmptyState from '../components/common/EmptyState.jsx';
 import PageHeader from '../components/common/PageHeader.jsx';
-import DeleteMessage from '../components/vehicles/DeleteMessage.jsx';
+import DeleteVehicleDialog from '../components/vehicles/DeleteVehicleDialog.jsx';
 import FilterBar from '../components/vehicles/FilterBar.jsx';
 import SearchBar from '../components/vehicles/SearchBar.jsx';
 import VehicleTable from '../components/vehicles/VehicleTable.jsx';
@@ -21,26 +18,7 @@ export default function VehicleListPage() {
   const { isAdmin } = useRole();
   const { vehicles, loading, error, reload } = useVehicles();
   const [sort, setSort] = useState({ by: 'plateNumber', direction: 'asc' });
-  const { notify } = useToast();
   const [deleteTarget, setDeleteTarget] = useState(null);
-  const [deleting, setDeleting] = useState(false);
-
-  // Close the dialog if the role switches to Viewer while it is open (DESIGN §7.3).
-  if (!isAdmin && deleteTarget) setDeleteTarget(null);
-
-  async function confirmDelete() {
-    setDeleting(true);
-    try {
-      await vehicleService.remove(deleteTarget.id);
-      notify({ message: `Vehicle ${deleteTarget.plateNumber} deleted.` });
-    } catch {
-      notify({ type: 'error', message: `Vehicle ${deleteTarget.plateNumber} no longer exists.` });
-    } finally {
-      setDeleting(false);
-      setDeleteTarget(null);
-      reload();
-    }
-  }
 
   // Search and filters live in the URL (?q=&status=&type=) so dashboard links and back/forward work.
   const [searchParams, setSearchParams] = useSearchParams();
@@ -137,15 +115,13 @@ export default function VehicleListPage() {
         {!loading && `${shown.length} vehicles shown`}
       </div>
       {content}
-      <ConfirmDialog
-        open={deleteTarget !== null}
-        title="Delete vehicle?"
-        message={deleteTarget && <DeleteMessage vehicle={deleteTarget} />}
-        confirmLabel="Delete vehicle"
-        tone="danger"
-        busy={deleting}
-        onConfirm={confirmDelete}
+      <DeleteVehicleDialog
+        vehicle={deleteTarget}
         onCancel={() => setDeleteTarget(null)}
+        onDone={() => {
+          setDeleteTarget(null);
+          reload();
+        }}
       />
     </>
   );
