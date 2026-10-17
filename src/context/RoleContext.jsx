@@ -4,9 +4,9 @@ import { ROLES } from '../constants/vehicle.js';
 // Simulated role for demonstration only — NOT a security control (REQUIREMENTS §7.3).
 const RoleContext = createContext(null);
 
-export function RoleProvider({ children }) {
-  // FR-42: start as Admin so every feature is visible straight away.
-  const [role, setRole] = useState(ROLES.ADMIN);
+// FR-42: start as Admin so every feature is visible straight away. `initialRole` is for tests.
+export function RoleProvider({ children, initialRole = ROLES.ADMIN }) {
+  const [role, setRole] = useState(initialRole);
   const value = useMemo(() => ({ role, setRole, isAdmin: role === ROLES.ADMIN }), [role]);
   return <RoleContext.Provider value={value}>{children}</RoleContext.Provider>;
 }

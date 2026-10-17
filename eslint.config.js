@@ -56,4 +56,12 @@ export default [
     files: ['src/context/**/*.jsx'],
     rules: { 'react-refresh/only-export-components': 'off' },
   },
+  {
+    // Tests may use the seed data as a fixture and export test helpers.
+    files: ['src/test/**', 'src/**/*.test.{js,jsx}'],
+    rules: {
+      'no-restricted-imports': 'off',
+      'react-refresh/only-export-components': 'off',
+    },
+  },
 ];

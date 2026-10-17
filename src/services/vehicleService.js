@@ -24,9 +24,16 @@ export class NotFoundError extends Error {
 }
 
 // Private, module-scoped state.
-const vehicles = structuredClone(seedVehicles);
-// Starts at (highest seed id + 1) and only ever increases, so ids are never reused.
-let nextId = Math.max(0, ...vehicles.map((vehicle) => vehicle.id)) + 1;
+let vehicles;
+let nextId;
+
+// Loads a fresh copy of the seed data. Runs once when the app starts; tests call it so each
+// test starts from the same data. nextId starts at (highest seed id + 1) and only ever increases.
+export function resetVehicleData() {
+  vehicles = structuredClone(seedVehicles);
+  nextId = Math.max(0, ...vehicles.map((vehicle) => vehicle.id)) + 1;
+}
+resetVehicleData();
 
 // Runs `work` after the simulated delay and resolves with a copy of its result,
 // so callers can never mutate stored data. Errors thrown by `work` reject the Promise.
