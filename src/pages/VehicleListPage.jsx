@@ -64,7 +64,7 @@ export default function VehicleListPage() {
 
   let content;
   if (loading) {
-    content = <p className="muted">Loading vehicles…</p>;
+    content = <p className="muted" role="status">Loading vehicles…</p>;
   } else if (error) {
     content = (
       <EmptyState

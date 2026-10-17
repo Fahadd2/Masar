@@ -22,7 +22,7 @@ export default function DashboardPage() {
 
   let content;
   if (loading) {
-    content = <p className="muted">Loading dashboard…</p>;
+    content = <p className="muted" role="status">Loading dashboard…</p>;
   } else if (error) {
     content = (
       <EmptyState icon="alert" title="Couldn't load vehicles." action={<Button onClick={reload}>Try again</Button>} />

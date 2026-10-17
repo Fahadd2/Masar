@@ -69,7 +69,7 @@ export default function VehicleDetailsPage() {
     </Link>
   );
 
-  if (loading) return <p className="muted">Loading vehicle…</p>;
+  if (loading) return <p className="muted" role="status">Loading vehicle…</p>;
   if (error || notFound) {
     return (
       <EmptyState

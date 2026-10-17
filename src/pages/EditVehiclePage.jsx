@@ -22,7 +22,7 @@ export default function EditVehiclePage() {
   else if (notFound) title = 'Vehicle not found';
   useDocumentTitle(title);
 
-  if (loading) return <p className="muted">Loading vehicle…</p>;
+  if (loading) return <p className="muted" role="status">Loading vehicle…</p>;
   if (error || notFound) {
     return (
       <EmptyState
