@@ -1,7 +1,57 @@
-import PageHeader from '../components/common/PageHeader.jsx';
+import { useNavigate, useParams } from 'react-router';
+import { useToast } from '../context/ToastContext.jsx';
 import { useDocumentTitle } from '../hooks/useDocumentTitle.js';
+import { useVehicle } from '../hooks/useVehicle.js';
+import { useVehicles } from '../hooks/useVehicles.js';
+import * as vehicleService from '../services/vehicleService.js';
+import { toFormValues, validateVehicle } from '../utils/validateVehicle.js';
+import Button from '../components/common/Button.jsx';
+import EmptyState from '../components/common/EmptyState.jsx';
+import PageHeader from '../components/common/PageHeader.jsx';
+import VehicleForm from '../components/vehicles/VehicleForm.jsx';
 
 export default function EditVehiclePage() {
-  useDocumentTitle('Edit vehicle');
-  return <PageHeader title="Edit vehicle" subtitle="Coming soon." />;
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { notify } = useToast();
+  const { vehicle, loading, error, notFound } = useVehicle(id);
+  const { vehicles } = useVehicles();
+
+  let title = 'Edit vehicle';
+  if (vehicle) title = `Edit ${vehicle.plateNumber}`;
+  else if (notFound) title = 'Vehicle not found';
+  useDocumentTitle(title);
+
+  if (loading) return <p className="muted">Loading vehicle…</p>;
+  if (error || notFound) {
+    return (
+      <EmptyState
+        icon="alert"
+        headingLevel={1}
+        title={notFound ? 'Vehicle not found' : "Couldn't load this vehicle."}
+        message={notFound ? `There is no vehicle with ID "${id}".` : null}
+        action={<Button to="/vehicles">Back to vehicles</Button>}
+      />
+    );
+  }
+
+  async function handleSubmit(values) {
+    const saved = await vehicleService.update(vehicle.id, values);
+    notify({ message: `Vehicle ${saved.plateNumber} updated.` });
+    navigate(`/vehicles/${saved.id}`);
+  }
+
+  return (
+    <>
+      <PageHeader title={`Edit vehicle ${vehicle.plateNumber}`} subtitle={`Vehicle ID: ${vehicle.id}`} />
+      <VehicleForm
+        key={vehicle.id}
+        mode="edit"
+        initialValues={toFormValues(vehicle)}
+        validate={(values) => validateVehicle(values, { vehicles, original: vehicle })}
+        onSubmit={handleSubmit}
+        onCancel={() => navigate(`/vehicles/${vehicle.id}`)}
+      />
+    </>
+  );
 }

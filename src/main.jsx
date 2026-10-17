@@ -5,14 +5,17 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router';
 import { RoleProvider } from './context/RoleContext.jsx';
+import { ToastProvider } from './context/ToastContext.jsx';
 import App from './App.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <RoleProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ToastProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ToastProvider>
     </RoleProvider>
   </StrictMode>,
 );

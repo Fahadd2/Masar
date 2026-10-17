@@ -1,11 +1,16 @@
-import { Link, useParams } from 'react-router';
+import { useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router';
 import { useRole } from '../context/RoleContext.jsx';
+import { useToast } from '../context/ToastContext.jsx';
 import { useDocumentTitle } from '../hooks/useDocumentTitle.js';
 import { useVehicle } from '../hooks/useVehicle.js';
+import * as vehicleService from '../services/vehicleService.js';
 import { getToday } from '../utils/dates.js';
 import { formatDate, formatKm, formatSAR, plural } from '../utils/format.js';
 import Button from '../components/common/Button.jsx';
+import ConfirmDialog from '../components/common/ConfirmDialog.jsx';
 import EmptyState from '../components/common/EmptyState.jsx';
+import DeleteMessage from '../components/vehicles/DeleteMessage.jsx';
 import StatusBadge from '../components/vehicles/StatusBadge.jsx';
 import ServiceTag from '../components/vehicles/ServiceTag.jsx';
 import styles from './VehicleDetailsPage.module.css';
@@ -32,6 +37,26 @@ export default function VehicleDetailsPage() {
   const { id } = useParams();
   const { isAdmin } = useRole();
   const { vehicle, loading, error, notFound } = useVehicle(id);
+  const navigate = useNavigate();
+  const { notify } = useToast();
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  // Close the dialog if the role switches to Viewer while it is open (DESIGN §7.3).
+  if (!isAdmin && confirmOpen) setConfirmOpen(false);
+
+  async function confirmDelete() {
+    setDeleting(true);
+    try {
+      await vehicleService.remove(vehicle.id);
+      notify({ message: `Vehicle ${vehicle.plateNumber} deleted.` });
+    } catch {
+      notify({ type: 'error', message: `Vehicle ${vehicle.plateNumber} no longer exists.` });
+    }
+    setDeleting(false);
+    setConfirmOpen(false);
+    navigate('/vehicles');
+  }
 
   let title = 'Vehicle';
   if (vehicle) title = vehicle.plateNumber;
@@ -75,6 +100,9 @@ export default function VehicleDetailsPage() {
         {isAdmin && (
           <div className={styles.actions}>
             <Button to={`/vehicles/${vehicle.id}/edit`}>Edit</Button>
+            <Button variant="danger" onClick={() => setConfirmOpen(true)}>
+              Delete
+            </Button>
           </div>
         )}
       </div>
@@ -121,6 +149,17 @@ export default function VehicleDetailsPage() {
       </div>
 
       <p className={`muted ${styles.id}`}>Vehicle ID: {vehicle.id}</p>
+
+      <ConfirmDialog
+        open={confirmOpen}
+        title="Delete vehicle?"
+        message={<DeleteMessage vehicle={vehicle} />}
+        confirmLabel="Delete vehicle"
+        tone="danger"
+        busy={deleting}
+        onConfirm={confirmDelete}
+        onCancel={() => setConfirmOpen(false)}
+      />
     </>
   );
 }
