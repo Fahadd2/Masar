@@ -722,8 +722,7 @@ Masar/                            # repository root (github.com/Fahadd2/Masar)
 ├── README.md                     # title "Masar"; install / run / build instructions (NFR-19)
 ├── docs/
 │   ├── REQUIREMENTS.md
-│   ├── DESIGN.md
-│   └── AI_USAGE.md
+│   └── DESIGN.md
 ├── public/
 │   └── favicon.svg
 └── src/

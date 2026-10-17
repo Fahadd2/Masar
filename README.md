@@ -61,4 +61,3 @@ src/
 
 - [Requirements](docs/REQUIREMENTS.md)
 - [Design](docs/DESIGN.md)
-- [AI usage log](docs/AI_USAGE.md)
