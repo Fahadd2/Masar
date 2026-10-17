@@ -1,0 +1,52 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  color: var(--color-text);
+  text-decoration: none;
+  border-bottom-width: 4px;
+}
+
+.link:hover {
+  background: var(--color-surface-hover);
+}
+
+.label {
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.value {
+  font-size: var(--text-stat);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.caption {
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+/* Accent bar in the status colour */
+.neutral {
+  border-bottom-color: var(--color-nav-bg);
+}
+
+.available {
+  border-bottom-color: var(--status-available-accent);
+}
+
+.inUse {
+  border-bottom-color: var(--status-in-use-accent);
+}
+
+.maintenance {
+  border-bottom-color: var(--status-maintenance-accent);
+}
+
+.retired {
+  border-bottom-color: var(--status-retired-accent);
+}
