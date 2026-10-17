@@ -1,0 +1,58 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  line-height: 1.6;
+  white-space: nowrap;
+  border-radius: var(--radius-sm);
+}
+
+.sm {
+  padding: 0 6px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.available {
+  color: var(--status-available-text);
+  background: var(--status-available-bg);
+}
+
+.available .dot {
+  background: var(--status-available-accent);
+}
+
+.inUse {
+  color: var(--status-in-use-text);
+  background: var(--status-in-use-bg);
+}
+
+.inUse .dot {
+  background: var(--status-in-use-accent);
+}
+
+.maintenance {
+  color: var(--status-maintenance-text);
+  background: var(--status-maintenance-bg);
+}
+
+.maintenance .dot {
+  background: var(--status-maintenance-accent);
+}
+
+.retired {
+  color: var(--status-retired-text);
+  background: var(--status-retired-bg);
+}
+
+.retired .dot {
+  background: var(--status-retired-accent);
+}

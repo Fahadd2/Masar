@@ -1,0 +1,51 @@
+.search {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.label {
+  font-size: var(--text-small);
+  font-weight: 500;
+}
+
+.inputWrap {
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: var(--space-3);
+  font-size: 14px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.input {
+  padding-left: 36px;
+  padding-right: 40px;
+}
+
+/* Hide the browser's own clear button; we provide one. */
+.input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.clear {
+  position: absolute;
+  top: 50%;
+  right: var(--space-1);
+  width: 32px;
+  height: 32px;
+  color: var(--color-text-muted);
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-md);
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.clear:hover {
+  background: var(--color-surface-hover);
+}

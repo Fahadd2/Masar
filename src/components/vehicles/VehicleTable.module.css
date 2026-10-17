@@ -1,0 +1,144 @@
+/* Table: desktop and tablet. Scrolls inside its own container, never the page (NFR-10). */
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-small);
+}
+
+.table th,
+.table td {
+  padding: var(--space-3);
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table th {
+  font-weight: 600;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  background: var(--color-bg);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.table tbody tr:hover {
+  background: var(--color-primary-subtle);
+}
+
+.right {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.sortButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0;
+  font-weight: 600;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.sortButton:hover {
+  color: var(--color-text);
+}
+
+.sortIcon {
+  font-size: 10px;
+}
+
+.service {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--space-1);
+}
+
+.deleteButton {
+  color: var(--color-danger-hover);
+}
+
+.deleteButton:hover:not(:disabled) {
+  background: var(--color-danger-subtle);
+}
+
+/* Mobile cards */
+.mobile {
+  display: none;
+}
+
+.mobileSort {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  font-size: var(--text-small);
+  font-weight: 500;
+}
+
+.mobileSort label {
+  white-space: nowrap;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.cardItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4);
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.cardPlate {
+  font-size: var(--text-body);
+  font-weight: 700;
+}
+
+.cardItem .actions {
+  margin-top: var(--space-2);
+}
+
+.cardItem .actions > * {
+  flex: 1;
+  min-height: 44px;
+  border: 1px solid var(--color-border);
+}
+
+@media (max-width: 767px) {
+  .tableWrap {
+    display: none;
+  }
+
+  .mobile {
+    display: block;
+  }
+}

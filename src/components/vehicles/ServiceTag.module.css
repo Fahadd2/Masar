@@ -1,0 +1,19 @@
+.tag {
+  display: inline-block;
+  padding: 0 6px;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  line-height: 1.6;
+  white-space: nowrap;
+  border-radius: var(--radius-sm);
+}
+
+.overdue {
+  color: var(--color-danger-hover);
+  background: var(--color-danger-subtle);
+}
+
+.dueSoon {
+  color: var(--color-warning-text);
+  background: var(--color-warning-subtle);
+}
