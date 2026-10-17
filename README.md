@@ -36,6 +36,23 @@ The output goes to `dist/`. To preview the production build locally:
 npm run preview
 ```
 
+## Run tests
+
+Run all unit and integration tests once:
+
+```bash
+npm test
+```
+
+Run them with a coverage report (summary in the terminal, full HTML report in `coverage/index.html`):
+
+```bash
+npm run test:coverage
+```
+
+Tests always use 2026-10-17 as "today", so they give the same results on any date. The latest
+results are in [docs/TEST_REPORT.md](docs/TEST_REPORT.md).
+
 ## Lint
 
 ```bash
@@ -54,10 +71,15 @@ src/
 ├── utils/                       dates, formatting, validation, filtering, dashboard stats
 ├── components/                  layout, vehicles, dashboard and common UI components
 ├── pages/                       one component per route
-└── styles/                      design tokens and global styles
+├── styles/                      design tokens and global styles
+├── test/                        test setup and render helper
+└── __tests__/                   integration tests (unit tests sit next to the code in __tests__/)
 ```
 
 ## Documentation
 
-- [Requirements](docs/REQUIREMENTS.md)
-- [Design](docs/DESIGN.md)
+- [Requirements](docs/REQUIREMENTS.md): scope, data model, validation rules, user stories
+- [Design](docs/DESIGN.md): wireframes, style guide, components, UX behaviour, diagrams
+- [Architecture](docs/ARCHITECTURE.md): layers, technology stack, data flow, state, routing
+- [Test report](docs/TEST_REPORT.md): latest test results and coverage
+- [Code review](docs/CODE_REVIEW.md): findings and fixes
